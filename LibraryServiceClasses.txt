@@ -1,0 +1,91 @@
+
+public class LibraryService
+{
+    LibraryDatabaseInterface database;
+
+    public LibraryService(LibraryDatabaseInterface database)
+    {
+        this.database = database;
+    }
+
+    // If the book with the isbn is available then borrow the book and set its status to unavailable.
+    // You can link the book with the User or leave this complexity to a side for now.
+    public bool borrowBook(String isbn, User user)
+    {
+        Book book = database.findBookByIsbn(isbn);
+
+        // the code we want to test
+        if (book == null)
+            throw new Exception("Book not found");  // Better throw a custom BookNotFoundException 
+
+        book.borrowBook();
+        // check isAvailable is false
+        return true;
+    }
+
+    //If the book with the isbn is available then return the book and set its status to available.
+    public bool returnBook(String isbn, User user)
+    {
+        updateBookStatus(isbn, true);
+        return true;
+    }
+
+    //set the status of a book to true/false.
+    public bool updateBookStatus(String isbn, bool isAvailable)
+    {
+        // access the database and set the status to true/false
+        return true;
+    }
+}
+//---------------------------------------------------------------
+
+public interface LibraryDatabaseInterface
+{
+    Book findBookByIsbn(String isbn);
+}
+
+//---------------------------------------------------------------
+
+public class Book
+{
+    private String title;
+    private String isbn;
+    private bool available;
+
+    public Book(String title, String isbn)
+    {
+        this.title = title;
+        this.isbn = isbn;
+        this.available = true;
+    }
+
+    public String getTitle() { return title; }
+    public String getIsbn() { return isbn; }
+    public bool isAvailable() { return available; }
+    public void borrowBook() { this.available = false; }
+    public void returnBook() { this.available = true; }
+}
+
+//---------------------------------------------------------------
+
+public class User
+{
+    private String name;
+    private int userId;
+
+    public User(String name, int userId)
+    {
+        this.name = name;
+        this.userId = userId;
+    }
+
+    public String getName() { return name; }
+    public int getUserId() { return userId; }
+}
+
+//---------------------------------------------------------------
+
+
+
+
+
